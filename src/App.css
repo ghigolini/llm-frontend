@@ -1,38 +1,89 @@
 .App {
   text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
+  background-color: #1b1b1d;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-end;
   font-size: calc(10px + 2vmin);
   color: white;
 }
 
-.App-link {
-  color: #61dafb;
+.chat {
+  width: 50%;
+  padding-bottom: 150px; /* stesso valore dell’altezza del blocco fisso */
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+.chat-message {
+  color: #eeeeee;
+  border-radius: 10px;
+  margin-bottom: 40px;
+  font-size: 20px;
+  width: 100%;
+  padding: 20px 20px;
+  bottom: 0;
+  text-align: left;
+}
+
+.chat-message:hover {
+  background-color: #2b2b2d;
+}
+
+.interface {
+  position: fixed;
+  bottom: 0;
+  width: 50%;
+  padding-bottom: 100px;
+  background-color:#1b1b1d
+}
+
+.message-box {
+  padding: 6px 12px;
+  font-size: 16px;
+  font-weight: 400;
+  width: 80%;
+  line-height: 2;
+  color: #212529;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid #ced4da;
+  appearance: none;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 0px;
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 0px;
+  transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+  :focus{
+    color: #212529;
+    background-color: #fff;
+    border-color: #86b7fe;
+    outline: 0;
+    box-shadow: 0 0 0 0.25rem rgb(13 110 253 / 25%);
   }
-  to {
-    transform: rotate(360deg);
-  }
+}
+
+.send-message-button {
+  background-color: #04AA6D; /* Green */
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  border-top-left-radius: 0px;
+  border-top-right-radius: 20px;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 20px;
+  transition-duration: 0.2s;
+}
+
+.send-message-button:hover {
+  background-color: #14ba7d; /* Green */
+  color: white;
 }
