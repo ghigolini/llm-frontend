@@ -1,18 +1,18 @@
 .App {
-  text-align: center;
+  /* text-align: center; */
   background-color: #1b1b1d;
-  min-height: 100vh;
+  /* min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: flex-end;
-  font-size: calc(10px + 2vmin);
+  font-size: calc(10px + 2vmin);*/
   color: white;
 }
 
-.chat {
+/* .chat {
   width: 50%;
-  padding-bottom: 150px; /* stesso valore dell’altezza del blocco fisso */
+  padding-bottom: 150px; /* stesso valore dell’altezza del blocco fisso 
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -68,7 +68,7 @@
 }
 
 .send-message-button {
-  background-color: #04AA6D; /* Green */
+  background-color: #04AA6D; /* Green 
   border: none;
   color: white;
   padding: 15px 32px;
@@ -84,6 +84,6 @@
 }
 
 .send-message-button:hover {
-  background-color: #14ba7d; /* Green */
+  background-color: #14ba7d; /* Green 
   color: white;
-}
+} */
