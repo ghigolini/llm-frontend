@@ -17,7 +17,7 @@ function NavBar({set_chat}) {
 
     }
     return (
-        <div className="bg-neutral-800 border-r-2 border-r-neutral-700 text-center">
+        <div className="bg-neutral-800 border-r-2 p-10 border-r-neutral-700 text-center h-full bg-neutral-800">
             <button className="bg-red-500 text-white font-bold py-2 px-10 rounded hover:bg-red-700" onClick={reset_chat}>Reset</button>
         </div>
     );
