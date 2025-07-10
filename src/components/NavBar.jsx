@@ -5,7 +5,9 @@ const logo = require("../assets/logo_cb.png");
 
 function NavBar({ set_chat }) {
 	const fileInputRef = useRef(null);
+	const [files, setFiles] = useState([]);
 	const [fileNames, setFileNames] = useState([]);
+	const [fileUploaded, setFileUploaded] = useState(false);
 
 	const reset_chat = async (e) => {
 		await axios({
@@ -22,20 +24,35 @@ function NavBar({ set_chat }) {
 			});
 	};
 
-	const handleClick = () => {
+	const handleClick = async (e) => {
 		fileInputRef.current?.click();
 	};
 
-	const handleFileChange = (event) => {
-    const files = event.target.files;
-    if (files) {
-      const names = Array.from(files).map(file => file.name);
-      setFileNames(names);
-    } else {
-      setFileNames([]);
-    }
-  };
+	const handleFileChange = async (e) => {
+		setFileUploaded(false);
+		const selectedFiles = e.target.files;
+		if (selectedFiles.length > 0) {
+			setFiles(selectedFiles);
+			const names = Array.from(selectedFiles).map((file) => file.name);
+			setFileNames(names);
 
+			const formData = new FormData();
+			for (let i = 0; i < selectedFiles.length; i++) {
+				formData.append("files", selectedFiles[i]);
+			}
+			
+			axios
+				.post("http://127.0.0.1:5000/api/chat/set-rag-files", formData)
+				.then((response) => {
+					setFileUploaded(true);
+					setFileUploaded(response.data.uploaded);
+				})
+				.catch((error) => {
+					console.error(error);
+					setFileUploaded(false);
+				});
+		}
+	};
 
 	const [guardrails, setGuardrails] = useState(false);
 	const [rag, setRag] = useState(false);
@@ -129,19 +146,22 @@ function NavBar({ set_chat }) {
 					</li>
 					<li>
 						<form>
-							<input multiple type="file" ref={fileInputRef} onChange={handleFileChange} className="hidden" />
-							<Button className={`mb-5 ${fileInputRef !== null ? "bg-green-600" : "bg-black"}`} disabled={rag ? false : true} onClick={handleClick}>
+							<input multiple type="file" onChange={handleFileChange} ref={fileInputRef} className="hidden" />
+							<Button
+								className={`mb-5 ${fileUploaded ? "bg-green-600" : "bg-black"}`}
+								disabled={rag ? false : true}
+								type="button"
+								onClick={handleClick}
+							>
 								Select RAG files
 							</Button>
-							<div className="text-gray-50">
-								{fileInputRef !== null ? "File uploaded" : "No file uploaded"}
-							</div>
+							<div className="text-gray-50">{fileUploaded ? "File uploaded" : "No file uploaded"}</div>
 							{fileNames.length > 0 && (
 								<ul className="space-y-1">
 									{fileNames.map((name, index) => (
 										<li key={index} className="break-words">
 											<div className="bg-gray-700 p-2 rounded text-sm text-gray-50">
-												{index+1}. {name}
+												{index + 1}. {name}
 											</div>
 										</li>
 									))}
