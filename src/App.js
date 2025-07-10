@@ -62,12 +62,12 @@ function App() {
 
 	return (
 		<ThemeProvider>
-			<div className="bg-gray-800 min-h-screen grid grid-cols-10 text-lg">
-				<div className="hidden lg:block col-span-1 bg-red-200 lg:fixed h-full w-[200px]">
+			<div className="bg-gray-800 min-h-screen grid grid-cols-8 text-lg">
+				<div className="hidden lg:block col-span-1 bg-red-200 lg:fixed h-full w-[300px]">
 					<NavBar set_chat={set_chat} />
 				</div>
 
-				<div className="lg:ml-[200px] col-span-10 lg:col-span-10 flex flex-col justify-between items-center px-10 py-8 bg-gray-900">
+				<div className="lg:ml-[300px] col-span-8 lg:col-span-8 flex flex-col justify-between items-center px-10 py-8 bg-gray-900">
 					<div ref={container_ref} className="flex-1 w-full overflow-y-auto mb-4 pb-10">
 						{chat.map((msg, index) => (
 							<ChatBox key={index} value={msg} />

@@ -8,6 +8,7 @@ function NavBar({ set_chat }) {
 	const [files, setFiles] = useState([]);
 	const [fileNames, setFileNames] = useState([]);
 	const [fileUploaded, setFileUploaded] = useState(false);
+	const [fileUploading, setFileUploading] = useState(false);
 
 	const reset_chat = async (e) => {
 		await axios({
@@ -30,6 +31,7 @@ function NavBar({ set_chat }) {
 
 	const handleFileChange = async (e) => {
 		setFileUploaded(false);
+		setFileUploading(true);
 		const selectedFiles = e.target.files;
 		if (selectedFiles.length > 0) {
 			setFiles(selectedFiles);
@@ -40,15 +42,17 @@ function NavBar({ set_chat }) {
 			for (let i = 0; i < selectedFiles.length; i++) {
 				formData.append("files", selectedFiles[i]);
 			}
-			
+
 			axios
 				.post("http://127.0.0.1:5000/api/chat/set-rag-files", formData)
 				.then((response) => {
 					setFileUploaded(true);
+					setFileUploading(false);
 					setFileUploaded(response.data.uploaded);
 				})
 				.catch((error) => {
 					console.error(error);
+					setFileUploading(false);
 					setFileUploaded(false);
 				});
 		}
@@ -110,13 +114,13 @@ function NavBar({ set_chat }) {
 				<img src={logo} alt="Logo"></img>
 			</div>
 			<div className="flex justify-center min-h-screen">
-				<ul className="flex flex-col gap-5">
-					<li>
+				<ul className="flex flex-col space-y-4 w-full">
+					<li className="mb-5 flex justify-center">
 						<Button className="bg-red-500 text-white font-bold px-10 py-2 rounded hover:bg-red-700" onClick={reset_chat}>
 							Reset
 						</Button>
 					</li>
-					<li>
+					<li className="ml-10">
 						<Switch
 							color="green"
 							label={
@@ -129,7 +133,7 @@ function NavBar({ set_chat }) {
 							}}
 						/>
 					</li>
-					<li>
+					<li className="ml-10">
 						<Switch
 							color="green"
 							label={
@@ -144,24 +148,22 @@ function NavBar({ set_chat }) {
 							}}
 						/>
 					</li>
-					<li>
-						<form>
+					<li className="flex justify-center">
+						<form className="mt-5">
 							<input multiple type="file" onChange={handleFileChange} ref={fileInputRef} className="hidden" />
-							<Button
-								className={`mb-5 ${fileUploaded ? "bg-green-600" : "bg-black"}`}
-								disabled={rag ? false : true}
-								type="button"
-								onClick={handleClick}
-							>
-								Select RAG files
-							</Button>
-							<div className="text-gray-50">{fileUploaded ? "File uploaded" : "No file uploaded"}</div>
+							<div className="flex justify-center">
+								<Button className={`mb-5 ${fileUploaded ? "bg-green-600" : "bg-black"}`} disabled={rag ? false : true} type="button" onClick={handleClick}>
+									Select RAG files
+								</Button>
+							</div>
+
+							<div className="text-gray-50 flex justify-center mb-3">{fileUploading ? "File uploading..." : fileUploaded ? "File uploaded!" : "No file uploaded"}</div>
 							{fileNames.length > 0 && (
-								<ul className="space-y-1">
+								<ul className="space-y-1 max-h-96 overflow-y-auto w-full max-w-md px-2 rounded">
 									{fileNames.map((name, index) => (
-										<li key={index} className="break-words">
-											<div className="bg-gray-700 p-2 rounded text-sm text-gray-50">
-												{index + 1}. {name}
+										<li key={index}>
+											<div className={`bg-gray-700 p-2 rounded text-sm text-gray-50 break-words whitespace-pre-wrap ${fileUploaded ? "bg-green-600" : "bg-black"}`}>
+												{name}
 											</div>
 										</li>
 									))}
